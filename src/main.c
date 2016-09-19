@@ -91,7 +91,7 @@ void check_change_state()
 		motion_set_timeout(_settings->occupiedTimeout);
 	}
 
-	bool newSensorState = motion_get_state();
+	bool newSensorState = _settings->alwaysOn || motion_get_state();
 	if(_isOccupied != newSensorState)
 	{
 		_isOccupied = newSensorState;

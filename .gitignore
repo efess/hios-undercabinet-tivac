@@ -1,3 +1,7 @@
+src/RemoteSystemsTempFiles
+src/.metadata
+src/.settings
+src/Debug
 # Object files
 *.o
 *.ko

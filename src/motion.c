@@ -21,7 +21,8 @@
 
 #define TICKS_PER_MILLISECOND CPU_CLOCK / 1000
 
-uint16_t _motion_timeout;
+uint32_t _motion_timeout;
+uint16_t _current_second;
 
 bool volatile _motion_sensor_occupied;
 uint32_t volatile _msCounter;
@@ -31,10 +32,7 @@ void motion_event(void)
 {
 	GPIOIntClear(MOTION_PORT, MOTION_PIN);
 	_motion_sensor_occupied = GPIOPinRead(MOTION_PORT, MOTION_PIN);
-	if(_motion_sensor_occupied)
-	{
-		_lastOccupiedDetected = _msCounter;
-	}
+	_lastOccupiedDetected = _msCounter;
 }
 
 void timer_update(void)
@@ -93,15 +91,13 @@ void configure_millisecond_timer()
 
 bool motion_get_state()
 {
-	uint32_t now = _msCounter;
-
 	return _motion_sensor_occupied ||
-			now < (_lastOccupiedDetected + _motion_timeout);
+			_msCounter < (_lastOccupiedDetected + _motion_timeout);
 }
 
-void motion_set_timeout(uint16_t timeout)
+void motion_set_timeout(uint16_t secondsTimeout)
 {
-	_motion_timeout = timeout;
+	_motion_timeout = secondsTimeout * 1000;
 }
 
 void motion_init(void)

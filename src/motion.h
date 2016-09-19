@@ -12,7 +12,7 @@
 #include <stdbool.h>
 
 bool motion_get_state();
-void motion_set_timeout(uint16_t timeout);
+void motion_set_timeout(uint16_t secondsTimeout);
 void motion_init(void);
 
 #endif /* MOTION_H_ */
